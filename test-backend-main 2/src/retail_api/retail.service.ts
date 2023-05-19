@@ -66,12 +66,15 @@ export class RetailService {
   }
 
   async orderStatuses(): Promise<CrmType[]> {
-    const res = await this.axios.get('/orders/orders-statuses', {
+    const res = await this.axios.get('/reference/order-types', {
       params: { site: 'demo-magazin' },
     })
-    if (!res?.data.orderStatuses) throw new Error('RETAIL CRM ERROR (2)')
 
-    const statuses = plainToClass(CrmType, res.data.orderStatuses)
+    console.log(res.data)
+
+    if (!res?.data) throw new Error('RETAIL CRM ERROR (2)')
+
+    const statuses = plainToClass(CrmType, res.data)
     return Object.values(statuses)
   }
 

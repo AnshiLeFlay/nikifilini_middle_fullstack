@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import OrdersShowStore from "./store";
 import { observer } from "mobx-react-lite";
 import styles from "./styles.m.styl";
+import DeliveryType from "~/components/DeliveryType";
+import OrderStatus from "~/components/OrderStatus";
+import ProductStatus from "~/components/ProductStatus";
 
 const OrdersShow = observer(
     (): JSX.Element => {
@@ -20,10 +23,21 @@ const OrdersShow = observer(
                         <div className={styles.items}>
                             <div className={styles.header}>
                                 <div>{state.order?.number}</div>
-                                <div>{state.order?.status}</div>
+                                <div>
+                                    {state.order?.status && (
+                                        <OrderStatus
+                                            code={state.order?.status}
+                                        />
+                                    )}
+                                </div>
                             </div>
                             <div className={styles.bodyRow}>
-                                Delivery: {state.order?.delivery.code}
+                                Delivery:{" "}
+                                {state.order?.delivery && (
+                                    <DeliveryType
+                                        code={state.order.delivery?.code}
+                                    />
+                                )}
                             </div>
                             <div className={styles.divider}></div>
                             <div className={styles.bodyRow}>
@@ -34,7 +48,9 @@ const OrdersShow = observer(
                                             key={`${state.order?.id}_${index}`}
                                         >
                                             <div className={styles.cell}>
-                                                {item.status}
+                                                <ProductStatus
+                                                    code={item.status}
+                                                />
                                             </div>
                                             <div className={styles.cell}>
                                                 {item.offer.displayName}
